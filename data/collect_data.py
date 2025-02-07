@@ -124,6 +124,12 @@ def load_math():
 #     ds = ds.remove_columns([c for c in ds.column_names if c not in DS_COLUMNS])
 #     return ds
 
+def load_s1k():
+    ds = datasets.load_dataset("simplescaling/s1K", trust_remote_code=True)["train"]
+    ds = ds.remove_columns([c for c in ds.column_names if c not in DS_COLUMNS])
+    return ds
+
+
 def load_numinamath():
     ds = datasets.load_dataset("AI-MO/NuminaMath-CoT", trust_remote_code=True)["train"]
     ds_aops = ds.filter(lambda x: x["source"] == "aops_forum")
@@ -406,7 +412,9 @@ DS_TO_SELECTION = {
     # Take all (720)
     "TheoremQA": [load_theoremqa, None, None],
     # Pretty big (434,778) and unclear how high quality so take 500
-    "NuminaMath": [load_numinamath, None, None],
+    # "NuminaMath": [load_numinamath, None, None],
+    "S1k": [load_s1k, None, None],
+
     # Take all as super high-quality (3329)
     # "Omni-MATH": [partial(load_generic, name="KbsdJames/Omni-MATH", question_field="problem", split="test"), select_examples_omni_math, None],
     "Omni-MATH": [partial(load_generic, name="KbsdJames/Omni-MATH", question_field="problem", split="test"), None, None],
@@ -480,4 +488,4 @@ if __name__ == "__main__":
     # Drop duplicates in `ds` on "col1"
     # import pdb; pdb.set_trace()
     ds = ds.filter(partial(is_unique, column="question", memory=memory))
-    ds.push_to_hub("simplescaling/s50K")
+    # ds.push_to_hub("simplescaling/s50K")
