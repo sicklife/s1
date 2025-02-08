@@ -1,10 +1,10 @@
 uid="$(date +%Y%m%d_%H%M%S)"
-base_model="Qwen/Qwen2.5-32B-Instruct"
+base_model="Qwen/Qwen2.5-3B-Instruct"
 lr=1e-5
 min_lr=0
 epochs=5
 micro_batch_size=2 # -> batch_size will be 16 if 8 gpus
-push_to_hub=true
+push_to_hub=false
 gradient_accumulation_steps=2
 max_steps=-1
 gpu_count=$(nvidia-smi -L | wc -l)
